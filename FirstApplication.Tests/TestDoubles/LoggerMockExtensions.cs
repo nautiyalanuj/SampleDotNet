@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Logging;
 using Moq;
 
-namespace TestApplication.Tests.TestDoubles;
+namespace FirstApplication.Tests.TestDoubles;
 
 internal sealed record LogEntry(LogLevel Level, string Message, Exception? Exception);
 

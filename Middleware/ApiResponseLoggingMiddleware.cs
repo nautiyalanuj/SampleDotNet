@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using System.Text;
 
-namespace TestApplication.Middleware
+namespace FirstApplication.Middleware
 {
     /// <summary>
     /// Buffers the response so the produced payload can be written to the log

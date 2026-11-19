@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using TestApplication.Models;
-using TestApplication.Services;
+using FirstApplication.Models;
+using FirstApplication.Services;
 
-namespace TestApplication.Controllers
+namespace FirstApplication.Controllers
 {
     [ApiController]
     [Route("[controller]")]

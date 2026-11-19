@@ -1,4 +1,4 @@
-namespace TestApplication.Middleware
+namespace FirstApplication.Middleware
 {
     public static class ApiResponseLoggingMiddlewareExtensions
     {

@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using TestApplication.Middleware;
-using TestApplication.Tests.TestDoubles;
+using FirstApplication.Middleware;
+using FirstApplication.Tests.TestDoubles;
 
-namespace TestApplication.Tests;
+namespace FirstApplication.Tests;
 
 [TestClass]
 public sealed class ApiResponseLoggingMiddlewareTests

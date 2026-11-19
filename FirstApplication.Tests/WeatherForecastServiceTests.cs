@@ -1,10 +1,10 @@
 using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using TestApplication.Configuration;
-using TestApplication.Services;
+using FirstApplication.Configuration;
+using FirstApplication.Services;
 
-namespace TestApplication.Tests;
+namespace FirstApplication.Tests;
 
 [TestClass]
 public sealed class WeatherForecastServiceTests

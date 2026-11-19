@@ -8,10 +8,10 @@
 
   <ItemGroup>
     <!-- The test project lives beside this project, keep its files out of the web app's default globs. -->
-    <Compile Remove="TestApplication.Tests\**" />
-    <Content Remove="TestApplication.Tests\**" />
-    <EmbeddedResource Remove="TestApplication.Tests\**" />
-    <None Remove="TestApplication.Tests\**" />
+    <Compile Remove="FirstApplication.Tests\**" />
+    <Content Remove="FirstApplication.Tests\**" />
+    <EmbeddedResource Remove="FirstApplication.Tests\**" />
+    <None Remove="FirstApplication.Tests\**" />
   </ItemGroup>
 
   <ItemGroup>

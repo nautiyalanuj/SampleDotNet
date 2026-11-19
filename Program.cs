@@ -1,6 +1,6 @@
-using TestApplication.Configuration;
-using TestApplication.Middleware;
-using TestApplication.Services;
+using FirstApplication.Configuration;
+using FirstApplication.Middleware;
+using FirstApplication.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

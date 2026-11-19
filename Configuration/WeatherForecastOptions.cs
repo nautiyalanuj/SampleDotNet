@@ -1,4 +1,4 @@
-namespace TestApplication.Configuration
+namespace FirstApplication.Configuration
 {
     /// <summary>
     /// Configuration bound from the "WeatherForecast" section and consumed by the business logic.

@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using TestApplication.Controllers;
-using TestApplication.Models;
-using TestApplication.Services;
+using FirstApplication.Controllers;
+using FirstApplication.Models;
+using FirstApplication.Services;
 
-namespace TestApplication.Tests;
+namespace FirstApplication.Tests;
 
 [TestClass]
 public sealed class WeatherForecastControllerTests

@@ -1,6 +1,6 @@
-using TestApplication.Models;
+using FirstApplication.Models;
 
-namespace TestApplication.Services
+namespace FirstApplication.Services
 {
     public interface IWeatherForecastService
     {

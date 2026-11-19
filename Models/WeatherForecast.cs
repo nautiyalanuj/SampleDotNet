@@ -1,4 +1,4 @@
-namespace TestApplication.Models
+namespace FirstApplication.Models
 {
     public class WeatherForecast
     {

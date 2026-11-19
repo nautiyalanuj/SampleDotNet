@@ -1,8 +1,8 @@
 using Microsoft.Extensions.Options;
-using TestApplication.Configuration;
-using TestApplication.Models;
+using FirstApplication.Configuration;
+using FirstApplication.Models;
 
-namespace TestApplication.Services
+namespace FirstApplication.Services
 {
     public sealed class WeatherForecastService : IWeatherForecastService
     {
