@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- The test project lives beside this project, keep its files out of the web app's default globs. -->
+    <Compile Remove="TestApplication.Tests\**" />
+    <Content Remove="TestApplication.Tests\**" />
+    <EmbeddedResource Remove="TestApplication.Tests\**" />
+    <None Remove="TestApplication.Tests\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Text.Json" Version="11.0.0" />
+  </ItemGroup>
+
+</Project>
