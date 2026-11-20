@@ -1,18 +1,17 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Xunit;
 using FirstApplication.Controllers;
 using FirstApplication.Models;
 using FirstApplication.Services;
 
 namespace FirstApplication.Tests;
 
-[TestClass]
 public sealed class WeatherForecastControllerTests
 {
     private readonly Mock<IWeatherForecastService> _serviceMock = new();
 
-    [TestMethod]
+    [Fact]
     public void Get_ReturnsOkWithForecastFromService()
     {
         WeatherForecast[] expected =
@@ -24,12 +23,12 @@ public sealed class WeatherForecastControllerTests
 
         var response = controller.Get(days: null);
 
-        var okResult = Assert.IsInstanceOfType<OkObjectResult>(response.Result);
-        Assert.AreSame(expected, okResult.Value);
+        var okResult = Assert.IsType<OkObjectResult>(response.Result);
+        Assert.Same(expected, okResult.Value);
         _serviceMock.Verify(service => service.GetForecast(null), Times.Once);
     }
 
-    [TestMethod]
+    [Fact]
     public void Get_PassesRequestedDaysToTheBusinessLogic()
     {
         var controller = new WeatherForecastController(_serviceMock.Object);
@@ -39,31 +38,23 @@ public sealed class WeatherForecastControllerTests
         _serviceMock.Verify(service => service.GetForecast(3), Times.Once);
     }
 
-    [TestMethod]
-    public void Get_WithZeroDays_ReturnsBadRequestWithoutCallingTheBusinessLogic()
+    [Theory]
+    [InlineData(0)]
+    [InlineData(-5)]
+    public void Get_WithZeroOrNegativeDays_ReturnsBadRequestWithoutCallingTheBusinessLogic(int days)
     {
         var controller = new WeatherForecastController(_serviceMock.Object);
 
-        var response = controller.Get(days: 0);
+        var response = controller.Get(days: days);
 
-        Assert.IsInstanceOfType<BadRequestObjectResult>(response.Result);
+        Assert.IsType<BadRequestObjectResult>(response.Result);
         _serviceMock.Verify(service => service.GetForecast(It.IsAny<int?>()), Times.Never);
     }
 
-    [TestMethod]
-    public void Get_WithNegativeDays_ReturnsBadRequest()
-    {
-        var controller = new WeatherForecastController(_serviceMock.Object);
-
-        var response = controller.Get(days: -5);
-
-        Assert.IsInstanceOfType<BadRequestObjectResult>(response.Result);
-    }
-
-    [TestMethod]
+    [Fact]
     public void Constructor_WithNullService_Throws()
     {
-        Assert.ThrowsExactly<ArgumentNullException>(
+        Assert.Throws<ArgumentNullException>(
             () => { _ = new WeatherForecastController(null!); });
     }
 }

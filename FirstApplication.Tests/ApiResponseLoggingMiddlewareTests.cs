@@ -1,21 +1,20 @@
 using System.Text;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Moq;
 using FirstApplication.Middleware;
 using FirstApplication.Tests.TestDoubles;
 
 namespace FirstApplication.Tests;
 
-[TestClass]
 public sealed class ApiResponseLoggingMiddlewareTests
 {
     private const string JsonPayload = "{\"temperatureC\":21}";
 
     private readonly Mock<ILogger<ApiResponseLoggingMiddleware>> _loggerMock = new();
 
-    [TestMethod]
+    [Fact]
     public async Task InvokeAsync_CopiesResponseBodyToTheClientStream()
     {
         var middleware = new ApiResponseLoggingMiddleware(WriteJsonAsync, _loggerMock.Object);
@@ -23,10 +22,10 @@ public sealed class ApiResponseLoggingMiddlewareTests
 
         await middleware.InvokeAsync(context);
 
-        Assert.AreEqual(JsonPayload, ReadStream(clientStream));
+        Assert.Equal(JsonPayload, ReadStream(clientStream));
     }
 
-    [TestMethod]
+    [Fact]
     public async Task InvokeAsync_LogsMethodPathStatusCodeAndResponseBody()
     {
         var entries = _loggerMock.CaptureLogEntries();
@@ -41,9 +40,9 @@ public sealed class ApiResponseLoggingMiddlewareTests
 
         await middleware.InvokeAsync(context);
 
-        Assert.HasCount(1, entries);
+        Assert.Single(entries);
         var entry = entries[0];
-        Assert.AreEqual(LogLevel.Information, entry.Level);
+        Assert.Equal(LogLevel.Information, entry.Level);
         Assert.Contains("GET", entry.Message);
         Assert.Contains("/WeatherForecast", entry.Message);
         Assert.Contains("201", entry.Message);
@@ -58,7 +57,7 @@ public sealed class ApiResponseLoggingMiddlewareTests
             Times.Once);
     }
 
-    [TestMethod]
+    [Fact]
     public async Task InvokeAsync_WithBinaryContent_DoesNotLogTheRawBody()
     {
         var entries = _loggerMock.CaptureLogEntries();
@@ -73,12 +72,12 @@ public sealed class ApiResponseLoggingMiddlewareTests
 
         await middleware.InvokeAsync(context);
 
-        Assert.HasCount(1, entries);
-        Assert.DoesNotContain("\u0001\u0002\u0003", entries[0].Message);
+        Assert.Single(entries);
+        Assert.DoesNotContain("\u0001\u0002\u0003", entries[0].Message, StringComparison.Ordinal);
         Assert.Contains("bytes of application/octet-stream not logged", entries[0].Message);
     }
 
-    [TestMethod]
+    [Fact]
     public async Task InvokeAsync_RestoresTheOriginalResponseStream()
     {
         var middleware = new ApiResponseLoggingMiddleware(WriteJsonAsync, _loggerMock.Object);
@@ -86,10 +85,10 @@ public sealed class ApiResponseLoggingMiddlewareTests
 
         await middleware.InvokeAsync(context);
 
-        Assert.AreSame(clientStream, context.Response.Body);
+        Assert.Same(clientStream, context.Response.Body);
     }
 
-    [TestMethod]
+    [Fact]
     public async Task InvokeAsync_WhenNextThrows_LogsErrorAndRethrows()
     {
         var entries = _loggerMock.CaptureLogEntries();
@@ -98,14 +97,14 @@ public sealed class ApiResponseLoggingMiddlewareTests
             _loggerMock.Object);
         var (context, _) = CreateContext();
 
-        var exception = await Assert.ThrowsExactlyAsync<InvalidOperationException>(
+        var exception = await Assert.ThrowsAsync<InvalidOperationException>(
             () => middleware.InvokeAsync(context));
 
-        Assert.AreEqual("boom", exception.Message);
-        Assert.HasCount(1, entries);
-        Assert.AreEqual(LogLevel.Error, entries[0].Level);
+        Assert.Equal("boom", exception.Message);
+        Assert.Single(entries);
+        Assert.Equal(LogLevel.Error, entries[0].Level);
         Assert.Contains("/WeatherForecast", entries[0].Message);
-        Assert.AreSame(exception, entries[0].Exception);
+        Assert.Same(exception, entries[0].Exception);
     }
 
     private static (DefaultHttpContext Context, MemoryStream ClientStream) CreateContext()

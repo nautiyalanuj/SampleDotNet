@@ -1,4 +1,5 @@
 using FirstApplication.Configuration;
+using FirstApplication.Filters;
 using FirstApplication.Middleware;
 using FirstApplication.Services;
 
@@ -24,6 +25,7 @@ builder.Services
 
 builder.Services.AddSingleton(TimeProvider.System);
 builder.Services.AddScoped<IWeatherForecastService, WeatherForecastService>();
+builder.Services.AddScoped<ExecutionTimingFilter>();
 
 var app = builder.Build();
 
